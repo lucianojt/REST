@@ -2,7 +2,7 @@ const pgp = require('pg-promise')();
 var db = pgp('postgres://zxsbvfocaemzby:d1645124538119110cd38631af5212c7da75b480d786f19b8effcc3433d1dafd@ec2-54-243-147-162.compute-1.amazonaws.com:5432/dnaovudsp0d1v?ssl=true');
 
 
-
+//products
 function getAllProducts(req, res) {
     db.any('select * from products')
         .then(function (data) {
@@ -85,5 +85,71 @@ module.exports = {
     getProductByID,
     insertProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllPurchase_items,
+    getPurchase_itemsByID,
+    updatePurchase_items,
+    deletePurchase_items
+}
+//purchase_items
+function getAllPurchase_items(req, res) {
+    db.any('select * from purchase_items')
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved ALL purchase_items'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+function getPurchase_itemsByID(req, res) {
+    db.any('select * from Purchase_items where id =' + req.params.id)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved Purchase_items id:' +
+                        req.params.id
+                });
+        })
+        .catch(function (error) {
+            res.status(500)
+                .json({
+                    status: 'failed',
+                    message: 'Failed to retrieved purchase_items id:' + req.params.id
+                });
+            console.log('ERROR:', error)
+        })
+}
+function updatePurchase_items(req, res) {
+    db.none('update purchase_items set id=${id} ,purchase_id= ${purchase_id},product_id= ${product_id}, price= ${price}, quantity= ${quantity}' + 'where id=' + req.params.id, req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Update one purchase_items'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+function deletePurchase_items(req, res) {
+    db.none('delete from purchase_items' + 'where id=' + req.params.id)
+
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Delete one purchase_items'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
 }

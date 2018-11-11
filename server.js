@@ -31,11 +31,18 @@ app.get('/api/json', function (req, res) {
 
 });
 
+//products
 app.get('/api/products/', db.getAllProducts);
 app.get('/api/products/:id', db.getProductByID);
 app.post('/api/products', db.insertProduct);
 app.put('/api/products/:id', db.updateProduct);
 app.delete('/api/products/:id', db.deleteProduct);
+
+//purchase_items
+app.get('/api/purchase_items/', db.getAllPurchase_items);
+app.get('/api/purchase_items/:id', db.getPurchase_itemsByID);
+app.put('/api/purchase_items/:id', db.updatePurchase_items);
+app.delete('/api/purchase_items/:id', db.deletePurchase_items);
 
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
