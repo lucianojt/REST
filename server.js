@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 // index page
 
 app.get('/', function (req, res) {
-    res.send('Express is running');
+    res.send('YOYO');
 });
 
 
