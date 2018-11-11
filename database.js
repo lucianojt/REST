@@ -98,8 +98,13 @@ module.exports = {
     getPurchasesByID,
     insertPurchases,
     updatePurchases,
-    deletePurchases
-
+    deletePurchases,
+    //users
+    getAllUsers,
+    getUsersByID,
+    insertUsers,
+    updateUsers,
+    deleteUsers
 }
 //purchase_items
 function getAllPurchase_items(req, res) {
@@ -250,6 +255,84 @@ function deletePurchases(req, res) {
                 .json({
                     status: 'success',
                     message: 'Delete one purchases'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+//users
+function getAllUsers(req, res) {
+    db.any('select * from users')
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved ALL users'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+
+function getUsersByID(req, res) {
+    db.any('select * from users where id =' + req.params.id)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved users id:' +
+                        req.params.id
+                });
+        })
+        .catch(function (error) {
+            res.status(500)
+                .json({
+                    status: 'failed',
+                    message: 'Failed to retrieved users id:' + req.params.id
+                });
+            console.log('ERROR:', error)
+        })
+}
+function insertUsers(req, res) {
+    db.none('insert into users(id, email, password, created_at)' +
+        'values(${id}, ${email}, ${password}, ${created_at})',
+        req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Inserted one users'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+function updateUsers(req, res) {
+    db.none('update users set id=${id} ,email= ${email},password= ${password},created_at= ${created_at}' + 'where id=' + req.params.id, req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Update one users'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+function deleteUsers(req, res) {
+    db.none('delete from users' + 'where id=' + req.params.id)
+
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Delete one users'
                 });
         })
         .catch(function (error) {

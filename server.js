@@ -52,6 +52,13 @@ app.post('/api/purchases', db.insertPurchases);
 app.put('/api/purchases/:id', db.updatePurchases);
 app.delete('/api/purchases/:id', db.deletePurchases);
 
+//users
+app.get('/api/users/', db.getAllUsers);
+app.get('/api/users/:id', db.getUsersByID);
+app.post('/api/users', db.insertUsers);
+app.put('/api/users/:id', db.updateUsers);
+app.delete('/api/users/:id', db.deleteUsers);
+
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log('App is running on http://localhost:' + port);
