@@ -195,13 +195,13 @@ function getAllPurchases(req, res) {
 }
 
 function getPurchasesByID(req, res) {
-    db.any('select * from products where id =' + req.params.id)
+    db.any('select * from purchases where id =' + req.params.id)
         .then(function (data) {
             res.status(200)
                 .json({
                     status: 'success',
                     data: data,
-                    message: 'Retrieved products id:' +
+                    message: 'Retrieved purchases id:' +
                         req.params.id
                 });
         })
@@ -209,20 +209,20 @@ function getPurchasesByID(req, res) {
             res.status(500)
                 .json({
                     status: 'failed',
-                    message: 'Failed to retrieved products id:' + req.params.id
+                    message: 'Failed to retrieved purchases id:' + req.params.id
                 });
             console.log('ERROR:', error)
         })
 }
 function insertPurchases(req, res) {
-    db.none('insert into products(id, title, price, created_at, tags)' +
-        'values(${id}, ${title}, ${price}, ${created_at}, ${tags})',
+    db.none('insert into purchases(id, created_at, name, address, zipcode)' +
+        'values(${id}, ${created_at}, ${name}, ${address}, ${zipcode})',
         req.body)
         .then(function (data) {
             res.status(200)
                 .json({
                     status: 'success',
-                    message: 'Inserted one product'
+                    message: 'Inserted one purchases'
                 });
         })
         .catch(function (error) {
@@ -230,12 +230,12 @@ function insertPurchases(req, res) {
         })
 }
 function updatePurchases(req, res) {
-    db.none('update products set id=${id} ,title= ${title},price= ${price}, tags= ${tags}' + 'where id=' + req.params.id, req.body)
+    db.none('update purchases set id=${id} ,created_at= ${created_at},name= ${name}, address= ${address}, zipcode= ${zipcode}' + 'where id=' + req.params.id, req.body)
         .then(function (data) {
             res.status(200)
                 .json({
                     status: 'success',
-                    message: 'Update one product'
+                    message: 'Update one purchases'
                 });
         })
         .catch(function (error) {
@@ -243,13 +243,13 @@ function updatePurchases(req, res) {
         })
 }
 function deletePurchases(req, res) {
-    db.none('delete from products' + 'where id=' + req.params.id)
+    db.none('delete from purchases' + 'where id=' + req.params.id)
 
         .then(function (data) {
             res.status(200)
                 .json({
                     status: 'success',
-                    message: 'Delete one product'
+                    message: 'Delete one purchases'
                 });
         })
         .catch(function (error) {
