@@ -81,13 +81,16 @@ function deleteProduct(req, res) {
         })
 }
 module.exports = {
+    //products
     getAllProducts,
     getProductByID,
     insertProduct,
     updateProduct,
     deleteProduct,
+    //purchase_items
     getAllPurchase_items,
     getPurchase_itemsByID,
+    insertPurchase_items,
     updatePurchase_items,
     deletePurchase_items
 }
@@ -107,13 +110,13 @@ function getAllPurchase_items(req, res) {
         })
 }
 function getPurchase_itemsByID(req, res) {
-    db.any('select * from Purchase_items where id =' + req.params.id)
+    db.any('select * from purchase_items where id =' + req.params.id)
         .then(function (data) {
             res.status(200)
                 .json({
                     status: 'success',
                     data: data,
-                    message: 'Retrieved Purchase_items id:' +
+                    message: 'Retrieved purchase_items id:' +
                         req.params.id
                 });
         })
@@ -123,6 +126,21 @@ function getPurchase_itemsByID(req, res) {
                     status: 'failed',
                     message: 'Failed to retrieved purchase_items id:' + req.params.id
                 });
+            console.log('ERROR:', error)
+        })
+}
+function insertPurchase_items(req, res) {
+    db.none('insert into purchase_items(id, purchase_id, product_id, price, quantity)' +
+        'values(${id}, ${purchase_id}, ${product_id}, ${price}, ${quantity})',
+        req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Inserted one Purchase_items'
+                });
+        })
+        .catch(function (error) {
             console.log('ERROR:', error)
         })
 }

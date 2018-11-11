@@ -41,6 +41,7 @@ app.delete('/api/products/:id', db.deleteProduct);
 //purchase_items
 app.get('/api/purchase_items/', db.getAllPurchase_items);
 app.get('/api/purchase_items/:id', db.getPurchase_itemsByID);
+app.post('/api/products', db.insertPurchase_items);
 app.put('/api/purchase_items/:id', db.updatePurchase_items);
 app.delete('/api/purchase_items/:id', db.deletePurchase_items);
 
